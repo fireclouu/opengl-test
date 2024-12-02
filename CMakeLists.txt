@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 
 # Source files
-set(SOURCES src/fileutils.c src/main.cpp src/glad.c)
+set(SOURCES src/main.cpp src/glad.c)
 
 # Add executable
 add_executable(opengltest ${SOURCES})
