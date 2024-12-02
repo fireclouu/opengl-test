@@ -50,45 +50,45 @@ int main()
 	  0.0f, 0.5f, 0.0f
     };
 
-      const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-      const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
+    const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
+    const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
 
-      const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
-      const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
+    const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
+    const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
 
-      unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-      glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-      glCompileShader(vertexShader);
+    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
 
-      unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-      glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-      glCompileShader(fragmentShader);
+    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
 
-      unsigned int shaderProgram;
-      shaderProgram = glCreateProgram();
+    unsigned int shaderProgram;
+    shaderProgram = glCreateProgram();
 
-      glAttachShader(shaderProgram, vertexShader);
-      glAttachShader(shaderProgram, fragmentShader);
-      glLinkProgram(shaderProgram);
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
 
 
-      glDeleteShader(vertexShader);
-      glDeleteShader(fragmentShader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 
-      unsigned int VAO;
-      unsigned int VBO;
-      glGenBuffers(1, &VBO);
-      glGenVertexArrays(1, &VAO);
+    unsigned int VAO;
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
 
-      glBindVertexArray(VAO);
-      glBindBuffer(GL_ARRAY_BUFFER, VBO);
-      glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-      glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
-      glUseProgram(shaderProgram);
-      glBindVertexArray(VAO);
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
 
     // render loop
     // -----------
