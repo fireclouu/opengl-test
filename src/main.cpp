@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include "fileutils.c"
+#include "fileutils.cpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -53,8 +53,8 @@ int main()
       const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
       const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
 
-      const char* vertexShaderSource = readFile(vertexShaderFilePath);
-      const char* fragmentShaderSource = readFile(fragmentShaderFilePath);
+      const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
+      const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
 
       unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
       glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
