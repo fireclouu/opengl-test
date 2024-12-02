@@ -9,10 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 include_directories(include)
 
 # Source files
-set(SOURCES src/main.cpp src/glad.c)
+set(SOURCES src/fileutils.c src/main.cpp src/glad.c)
 
 # Add executable
-add_executable(ogltest ${SOURCES})
+add_executable(opengltest ${SOURCES})
 
 # Link libraries
-target_link_libraries(ogltest GL glfw)
+target_link_libraries(opengltest GL glfw)
