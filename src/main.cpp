@@ -10,6 +10,8 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
+const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
 
 int main()
 {
@@ -20,9 +22,9 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
+    #ifdef __APPLE__
+      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
 
     // glfw window creation
     // --------------------
@@ -50,33 +52,27 @@ int main()
 	  0.0f, 0.5f, 0.0f
     };
 
-    const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-    const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
-
     const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
     const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
-
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
 
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
+    GLuint shaderProgram = glCreateProgram();
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
 
-
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    unsigned int VAO;
-    unsigned int VBO;
+    GLuint VAO;
+    GLuint VBO;
     glGenBuffers(1, &VBO);
     glGenVertexArrays(1, &VAO);
 
