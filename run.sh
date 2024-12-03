@@ -1,5 +1,6 @@
 #!/system/bin/sh
-mkdir build
+BUILD_NAME="opengltest"
+mkdir build && rm $BUILD_NAME
 cd build
 cmake ..
-make && ./opengltest
+make && ./$BUILD_NAME
