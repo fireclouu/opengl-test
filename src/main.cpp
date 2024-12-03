@@ -55,6 +55,22 @@ int main()
         return -1;
     }
 
+    // opengl initialization
+
+    GLuint VAO;
+    GLuint VBO;
+    glGenBuffers(1, &VBO);
+    glGenVertexArrays(1, &VAO);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // shader inits and compilation
+
     const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
     const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -98,21 +114,6 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    GLuint VAO;
-    GLuint VBO;
-    glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO);
-
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glUseProgram(shaderProgram);
-    glBindVertexArray(VAO);
-
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -126,6 +127,8 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+e       glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
