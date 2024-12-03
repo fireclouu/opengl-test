@@ -16,10 +16,21 @@ const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
 int success;
 char infoLog[512];
 
-const float vertices[] = {
+// hello, triangle
+/*const float vertices[] = {
   -0.5f, -0.5f, 0.0f,
   0.5f, -0.5f, 0.0f,
   0.0f, 0.5f, 0.0f
+};*/
+
+const float vertices[] = {
+  0.5f, 0.5f, 0.0f,
+  0.5f, -0.5f, 0.0f,
+  -0.5f, 0.5f, 0.0f,
+
+  0.5f, -0.5f, 0.0f,
+  -0.5f, -0.5f, 0.0f,
+  -0.5f, 0.5f, 0.0f
 };
 
 int main()
@@ -129,7 +140,7 @@ int main()
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
