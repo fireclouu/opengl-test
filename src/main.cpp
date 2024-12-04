@@ -23,6 +23,8 @@ char infoLog[512];
   0.0f, 0.5f, 0.0f
 };*/
 
+// unoptimize vertiices
+/*
 const float vertices[] = {
   0.5f, 0.5f, 0.0f,
   0.5f, -0.5f, 0.0f,
@@ -31,6 +33,20 @@ const float vertices[] = {
   0.5f, -0.5f, 0.0f,
   -0.5f, -0.5f, 0.0f,
   -0.5f, 0.5f, 0.0f
+};
+*/
+
+// optimized vertex draw using EBO
+const float vertices[] = {
+   0.5f,  0.5f,  0.0f,
+   0.5f, -0.5f,  0.0f,
+  -0.5f,  0.5f,  0.0f,
+  -0.5f, -0.5f,  0.0f,
+};
+
+const int indices[] = {
+  0, 1, 2, // first triangle vertices position
+  3, 1, 2, // second triangle vertices positions
 };
 
 int main()
@@ -70,12 +86,17 @@ int main()
 
     GLuint VAO;
     GLuint VBO;
+    GLuint EBO;
     glGenBuffers(1, &VBO);
     glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -140,8 +161,15 @@ int main()
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
 
+        // vertices method for drawing
+        // glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
+
+        // indexed drawing via EBO
+        glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_INT, 0);
+
+        // to unbind, use address of 0
+        glBindVertexArray(0);
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
