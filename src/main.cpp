@@ -6,11 +6,15 @@
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+
+int VBOTriangle1();
 int EBORectangle();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+int windowInit();
 
 // opengl
 GLuint compileShader(const char*, const int);
@@ -19,25 +23,35 @@ int success;
 char infoLog[512];
 
 GLFWwindow* window;
-// hello, triangle
-/*const float vertices[] = {
-  -0.5f, -0.5f, 0.0f,
-  0.5f, -0.5f, 0.0f,
-  0.0f, 0.5f, 0.0f
-};*/
 
-// unoptimize vertiices
-/*
-const float vertices[] = {
-  0.5f, 0.5f, 0.0f,
-  0.5f, -0.5f, 0.0f,
-  -0.5f, 0.5f, 0.0f,
+int main()
+{
+  if (windowInit() != 0) return -1;
+  int status = VBOTriangle1();
 
-  0.5f, -0.5f, 0.0f,
-  -0.5f, -0.5f, 0.0f,
-  -0.5f, 0.5f, 0.0f
-};
-*/
+  // glfw: terminate, clearing all previously allocated GLFW resources.
+  // ------------------------------------------------------------------
+  glfwTerminate();
+  return status;
+}
+
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+void processInput(GLFWwindow *window)
+{
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
+}
+
 int windowInit() {
     // glfw: initialize and configure
     // ------------------------------
@@ -73,34 +87,6 @@ int windowInit() {
     return 0;
 }
 
-int main()
-{
-  if (windowInit() != 0) return -1;
-  int status = EBORectangle();
-
-  // glfw: terminate, clearing all previously allocated GLFW resources.
-  // ------------------------------------------------------------------
-  glfwTerminate();
-  return status;
-}
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
-}
-
 GLuint compileShader(const char* shaderSource, int shaderType) {
   GLuint shader = glCreateShader(shaderType);
   glShaderSource(shader, 1, &shaderSource, NULL);
@@ -133,6 +119,64 @@ GLuint createShaderProgram(GLuint vertexShader, GLuint fragmentShader) {
   glDeleteShader(fragmentShader);
 
   return shaderProgram;
+}
+
+int VBOTriangle1() {
+  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
+  const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
+
+  const float vertices[] = {
+    0.0f, 0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f
+  };
+
+  GLuint VAO;
+  GLuint VBO;
+  glGenBuffers(1, &VBO);
+  glGenVertexArrays(1, &VAO);
+
+  glBindVertexArray(VAO);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
+
+  const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
+  const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
+
+  GLuint vertexShader;
+  GLuint fragmentShader;
+  GLuint shaderProgram;
+
+  try {
+    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
+    fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
+    shaderProgram = createShaderProgram(vertexShader, fragmentShader);
+  } catch (const std::runtime_error& e) {
+    std::cout << "An error occured. " << e.what() << "\n";
+    return -1;
+  }
+
+  while(!glfwWindowShouldClose(window)) {
+    processInput(window);
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
+
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
+
+    glBindVertexArray(0);
+
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
+
+  return 0;
 }
 
 int EBORectangle() {
