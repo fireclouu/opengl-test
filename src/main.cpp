@@ -18,7 +18,7 @@ int windowInit();
 
 // opengl
 GLuint compileShader(const char*, const int);
-GLuint createShaderProgram(GLuint vertexShader, GLuint fragmentShader);
+
 int success;
 char infoLog[512];
 
@@ -27,7 +27,8 @@ GLFWwindow* window;
 int main()
 {
   if (windowInit() != 0) return -1;
-  int status = VBOTriangle1();
+  // int status = VBOTriangle1();
+  int status = EBORectangle();
 
   // glfw: terminate, clearing all previously allocated GLFW resources.
   // ------------------------------------------------------------------
@@ -101,7 +102,42 @@ GLuint compileShader(const char* shaderSource, int shaderType) {
   return shader;
 }
 
-GLuint createShaderProgram(GLuint vertexShader, GLuint fragmentShader) {
+int VBOTriangle1() {
+  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
+  const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
+
+  const float vertices[] = {
+    0.0f, 0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f
+  };
+
+  GLuint VAO;
+  GLuint VBO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+
+  glBindVertexArray(VAO);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
+
+  const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
+  const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
+
+  GLuint vertexShader;
+  GLuint fragmentShader;
+
+  try {
+    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
+    fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
+  } catch (const std::runtime_error& e) {
+    std::cout << "An error occured. " << e.what() << "\n";
+    return -1;
+  }
+
   GLuint shaderProgram = glCreateProgram();
 
   glAttachShader(shaderProgram, vertexShader);
@@ -117,47 +153,6 @@ GLuint createShaderProgram(GLuint vertexShader, GLuint fragmentShader) {
 
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
-
-  return shaderProgram;
-}
-
-int VBOTriangle1() {
-  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-  const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
-
-  const float vertices[] = {
-    0.0f, 0.5f, 0.0f,
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f
-  };
-
-  GLuint VAO;
-  GLuint VBO;
-  glGenBuffers(1, &VBO);
-  glGenVertexArrays(1, &VAO);
-
-  glBindVertexArray(VAO);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-  glEnableVertexAttribArray(0);
-
-  const char* vertexShaderSource = readFileToCharPointer(vertexShaderFilePath);
-  const char* fragmentShaderSource = readFileToCharPointer(fragmentShaderFilePath);
-
-  GLuint vertexShader;
-  GLuint fragmentShader;
-  GLuint shaderProgram;
-
-  try {
-    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
-    fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
-    shaderProgram = createShaderProgram(vertexShader, fragmentShader);
-  } catch (const std::runtime_error& e) {
-    std::cout << "An error occured. " << e.what() << "\n";
-    return -1;
-  }
 
   while(!glfwWindowShouldClose(window)) {
     processInput(window);
@@ -221,16 +216,30 @@ int EBORectangle() {
 
   GLuint vertexShader;
   GLuint fragmentShader;
-  GLuint shaderProgram;
 
   try {
     vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
     fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
-    shaderProgram = createShaderProgram(vertexShader, fragmentShader);
   } catch (const std::runtime_error& e) {
     std::cout << "An error occured. " << e.what() << "\n";
     return -1;
   }
+
+  GLuint shaderProgram = glCreateProgram();
+
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragmentShader);
+  glLinkProgram(shaderProgram);
+
+  // compilation checks
+  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+  if (!success) {
+    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+    throw std::runtime_error("Error linking shaders: " + (std::string) infoLog + "\n");
+  }
+
+  glDeleteShader(vertexShader);
+  glDeleteShader(fragmentShader);
 
   // render loop
   // -----------
