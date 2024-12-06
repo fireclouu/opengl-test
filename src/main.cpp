@@ -7,7 +7,10 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
+// render
 int VBOTriangle1();
+int VBOTriangle2();
+int moreVboAndVao();
 int EBORectangle();
 
 // settings
@@ -27,8 +30,8 @@ GLFWwindow* window;
 int main()
 {
   if (windowInit() != 0) return -1;
-  // int status = VBOTriangle1();
-  int status = EBORectangle();
+  int status = VBOTriangle2();
+  // int status = EBORectangle();
 
   // glfw: terminate, clearing all previously allocated GLFW resources.
   // ------------------------------------------------------------------
@@ -102,15 +105,9 @@ GLuint compileShader(const char* shaderSource, int shaderType) {
   return shader;
 }
 
-int VBOTriangle1() {
+int VBOTriangle(const float vertices[], const size_t vertSize) {
   const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
   const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
-
-  const float vertices[] = {
-    0.0f, 0.5f, 0.0f,
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f
-  };
 
   GLuint VAO;
   GLuint VBO;
@@ -119,7 +116,7 @@ int VBOTriangle1() {
 
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vertSize, vertices, GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
@@ -163,7 +160,7 @@ int VBOTriangle1() {
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
 
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / 3);
+    glDrawArrays(GL_TRIANGLES, 0, vertSize / 3);
 
     glBindVertexArray(0);
 
@@ -172,6 +169,32 @@ int VBOTriangle1() {
   }
 
   return 0;
+}
+
+int VBOTriangle1() {
+  const float vertices[] = {
+    0.0f, 0.5f, 0.0f,
+    -0.5f, -0.5f, 0.0f,
+    0.5f, -0.5f, 0.0f
+  };
+
+  return VBOTriangle(vertices, sizeof(vertices));
+}
+
+int VBOTriangle2() {
+  const float vertices[] = {
+    // left triangle
+    -0.5f, 0.5f, 0.0f,
+    -1.0f, -0.5f, 0.0f,
+    0.0f, -0.5f, 0.0f,
+
+    // right triangle
+    0.0f, -0.5f, 0.0f,
+    0.5f, 0.5f, 0.0f,
+    1.0f, -0.5f, 0.0f,
+  };
+
+  return VBOTriangle(vertices, sizeof(vertices));
 }
 
 int EBORectangle() {
