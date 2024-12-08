@@ -10,3 +10,6 @@ Preparation for personal future developments which requires custom or uniform UI
 - [x] Basic Rendering Setup
 - [x] VAOs, VBOs, EBO
 - [ ] Shaders
+## Resources
+- [https://learnopengl.com](https://learnopengl.com/)
+- [http://www.opengl-tutorial.org](http://www.opengl-tutorial.org/)
