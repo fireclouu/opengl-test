@@ -1,8 +1,8 @@
 # OpenGL Test
-Learning basic stuffs into Graphics programming via OpenGL API, and to utilize GPU usages for performance and multiplaform support.
+Learning Graphics Render Programming via OpenGL API, to utilize GPU hardware for cross-device support.
 
 ## Motivation
-Preparation for personal future developments which requires custom or uniform UI across devices that understands OpenGL API.
+For future development integration which requires custom or uniform UI across devices that understands OpenGL API.
 
 ## Milestones
 - [x] Introduction to Graphics Programming
