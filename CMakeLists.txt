@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
 include_directories(include)
 
 # Source files
-set(SOURCES src/glad.c)
+set(SOURCES src/glad.c src/opengl_utils.c src/file_utils.cpp)
 
 # put sahders file together with build folders
 set(SHADERS_SRC_DIR ${CMAKE_SOURCE_DIR}/src/shaders)
