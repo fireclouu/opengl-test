@@ -107,8 +107,8 @@ GLuint compileShader(const char* shaderSource, int shaderType) {
 }
 
 int VBOTriangle(const float vertices[], const size_t vertSize) {
-  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-  const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
+  const char* vertexShaderFilePath = "shaders/vertex_shader.glsl";
+  const char* fragmentShaderFilePath = "shaders/fragment_shader.glsl";
 
   GLuint VAO;
   GLuint VBO;
@@ -187,9 +187,9 @@ int TriangleExercise1() {
     1.0f, -0.5f, 0.0f,
   };
 
-  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-  const char* fragmentShaderFilePath1 = "../src/shaders/fragment_shader.glsl";
-  const char* fragmentShaderFilePath2 = "../src/shaders/fragment_shader_1.glsl";
+  const char* vertexShaderFilePath = "shaders/vertex_shader.glsl";
+  const char* fragmentShaderFilePath1 = "shaders/fragment_shader.glsl";
+  const char* fragmentShaderFilePath2 = "shaders/fragment_shader_1.glsl";
 
   GLuint VAO[2];
   GLuint VBO[2];
@@ -316,8 +316,8 @@ int VBOTriangle2() {
 }
 
 int EBORectangle() {
-  const char* vertexShaderFilePath = "../src/shaders/vertex_shader.glsl";
-  const char* fragmentShaderFilePath = "../src/shaders/fragment_shader.glsl";
+  const char* vertexShaderFilePath = "shaders/vertex_shader.glsl";
+  const char* fragmentShaderFilePath = "shaders/fragment_shader.glsl";
 
   // optimized vertex draw using EBO
   const float vertices[] = {
