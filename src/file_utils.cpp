@@ -2,6 +2,7 @@
 #include <ios>
 #include <stdexcept>
 #include <string>
+#include "file_utils.hpp"
 
 char* readFileToCharPointer(const std::string &filePath) {
   std::ifstream file(filePath, std::ios::binary | std::ios::ate);
