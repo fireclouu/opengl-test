@@ -2,35 +2,20 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
-#include "fileutils.cpp"
+#include "opengl_utils.hpp"
+#include "file_utils.hpp"
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
-
-// render
-int VBOTriangle1();
+// render int VBOTriangle1();
 int VBOTriangle2();
 int moreVboAndVao();
 int EBORectangle();
 int TriangleExercise1();
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
-int windowInit();
-
-// opengl
-GLuint compileShader(const char*, const int);
-
-int success;
-char infoLog[512];
-
 GLFWwindow* window;
 
 int main()
 {
-  if (windowInit() != 0) return -1;
+  if (window_init(window) != 0) return -1;
   int status = TriangleExercise1();
   // int status = EBORectangle();
 
@@ -38,72 +23,6 @@ int main()
   // ------------------------------------------------------------------
   glfwTerminate();
   return status;
-}
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
-{
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
-}
-
-int windowInit() {
-    // glfw: initialize and configure
-    // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    #ifdef __APPLE__
-      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #endif
-
-    // glfw window creation
-    // --------------------
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    return 0;
-}
-
-GLuint compileShader(const char* shaderSource, int shaderType) {
-  GLuint shader = glCreateShader(shaderType);
-  glShaderSource(shader, 1, &shaderSource, NULL);
-  glCompileShader(shader);
-
-  // compilation checks
-  glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(shader, 512, NULL, infoLog);
-    throw std::runtime_error("Error compiling shader: " + (std::string) infoLog + "\n");
-  }
-  return shader;
 }
 
 int VBOTriangle(const float vertices[], const size_t vertSize) {
@@ -129,8 +48,8 @@ int VBOTriangle(const float vertices[], const size_t vertSize) {
   GLuint fragmentShader;
 
   try {
-    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
-    fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
+    vertexShader = compile_shader(vertexShaderSource, GL_VERTEX_SHADER);
+    fragmentShader = compile_shader(fragmentShaderSource, GL_FRAGMENT_SHADER);
   } catch (const std::runtime_error& e) {
     std::cout << "An error occured. " << e.what() << "\n";
     return -1;
@@ -153,7 +72,7 @@ int VBOTriangle(const float vertices[], const size_t vertSize) {
   glDeleteShader(fragmentShader);
 
   while(!glfwWindowShouldClose(window)) {
-    processInput(window);
+    process_input(window);
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -221,9 +140,9 @@ int TriangleExercise1() {
   GLuint fragmentShader2;
 
   try {
-    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
-    fragmentShader1 = compileShader(fragmentShaderSource1, GL_FRAGMENT_SHADER);
-    fragmentShader2 = compileShader(fragmentShaderSource2, GL_FRAGMENT_SHADER);
+    vertexShader = compile_shader(vertexShaderSource, GL_VERTEX_SHADER);
+    fragmentShader1 = compile_shader(fragmentShaderSource1, GL_FRAGMENT_SHADER);
+    fragmentShader2 = compile_shader(fragmentShaderSource2, GL_FRAGMENT_SHADER);
   } catch (const std::runtime_error& e) {
     std::cout << "An error occured. " << e.what() << "\n";
     return -1;
@@ -261,11 +180,11 @@ int TriangleExercise1() {
   glDeleteShader(fragmentShader2);
 
   while(!glfwWindowShouldClose(window)) {
-    processInput(window);
+    process_input(window);
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
+    process_input(window);
     // left triangle draws
     glUseProgram(shaderProgram1);
     glBindVertexArray(VAO[0]);
@@ -359,8 +278,8 @@ int EBORectangle() {
   GLuint fragmentShader;
 
   try {
-    vertexShader = compileShader(vertexShaderSource, GL_VERTEX_SHADER);
-    fragmentShader = compileShader(fragmentShaderSource, GL_FRAGMENT_SHADER);
+    vertexShader = compile_shader(vertexShaderSource, GL_VERTEX_SHADER);
+    fragmentShader = compile_shader(fragmentShaderSource, GL_FRAGMENT_SHADER);
   } catch (const std::runtime_error& e) {
     std::cout << "An error occured. " << e.what() << "\n";
     return -1;
@@ -388,7 +307,7 @@ int EBORectangle() {
   {
     // input
     // -----
-    processInput(window);
+    process_input(window);
 
     // render
     // ------
