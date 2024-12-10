@@ -43,7 +43,6 @@ while [ -z "$opt" ] || [ "$opt" -ne 0 ]; do
 
     echo "Current Directory will set to $PARENT_DIR/$BIN_DIR"
     cd $PARENT_DIR/$BIN_DIR
-
     echo -e "\e[033mTransferring to Program...\e[0m"
     $PARENT_DIR/${exec_array[$selected]}
     STATUS=$?
