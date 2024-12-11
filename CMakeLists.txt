@@ -19,9 +19,11 @@ file(MAKE_DIRECTORY ${SHADERS_DEST_DIR})
 
 # Add executable
 add_executable(exercise-01-vbo-triangle ${SOURCES} src/exercise-01-vbo-triangle.cpp)
+add_executable(exercise-02-vbo-more-triangles ${SOURCES} src/exercise-02-vbo-more-triangles.cpp)
 
 # Link libraries
 target_link_libraries(exercise-01-vbo-triangle GL glfw)
+target_link_libraries(exercise-02-vbo-more-triangles GL glfw)
 
 add_custom_target(copy_shaders ALL COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${SHADERS_SRC_DIR}/* ${SHADERS_DEST_DIR}/
