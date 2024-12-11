@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin)
 include_directories(include)
 
 # Source files
-set(SOURCES src/glad.c src/opengl_utils.cpp src/file_utils.cpp)
+set(SOURCES src/glad/glad.c src/utils/file_utils.cpp src/utils/opengl_utils.cpp)
 
 # put sahders file together with build folders
 set(SHADERS_SRC_DIR ${CMAKE_SOURCE_DIR}/src/shaders)
@@ -26,5 +26,5 @@ foreach(source_file IN LISTS exercise_sources)
 endforeach()
 
 add_custom_target(copy_shaders ALL COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${SHADERS_SRC_DIR}/* ${SHADERS_DEST_DIR}/
+  ${SHADERS_SRC_DIR}/* ${SHADERS_DEST_DIR}/
 )

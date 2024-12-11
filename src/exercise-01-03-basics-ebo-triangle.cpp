@@ -1,9 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
-#include "opengl_utils.hpp"
-#include "file_utils.hpp"
+#include "utils/file_utils.hpp"
+#include "utils/opengl_utils.hpp"
 
 // render
 int eboRectangle();
