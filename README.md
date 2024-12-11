@@ -4,6 +4,12 @@ Learning Graphics Render Programming via OpenGL API, to utilize GPU hardware for
 ## Motivation
 For future development integration which requires custom or uniform UI across devices that understands OpenGL API.
 
+## How to run or test?
+Make sure your device supports graphical interface and OpenGL 3.3 installed. Install required libraries:
+`libglfw3 libglfw3-dev`
+
+and supported packages. This project also uses GLAD library which is already integrated.
+
 ## Milestones
 - [x] Introduction to Graphics Programming
 - [x] OpenGL as Graphics API
