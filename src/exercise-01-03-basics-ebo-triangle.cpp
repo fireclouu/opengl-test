@@ -4,21 +4,20 @@
 #include "utils/file_utils.hpp"
 #include "utils/opengl_utils.hpp"
 
-// render
-int eboRectangle();
+int render();
 
 GLFWwindow* window;
 
 int main()
 {
   if (window_init(&window) != 0) return -1;
-  int status = eboRectangle();
+  int status = render();
 
   glfwTerminate();
   return status;
 }
 
-int eboRectangle() {
+int render() {
   const char* vertexShaderFilePath = "shaders/vertex_shader.glsl";
   const char* fragmentShaderFilePath = "shaders/fragment_shader.glsl";
 

@@ -4,21 +4,20 @@
 #include "utils/file_utils.hpp"
 #include "utils/opengl_utils.hpp"
 
-// render
-int VBOTriangle();
+int render();
 
 GLFWwindow* window;
 
 int main()
 {
   if (window_init(&window) != 0) return -1;
-  int status = VBOTriangle();
+  int status = render();
 
   glfwTerminate();
   return status;
 }
 
-int VBOTriangle() {
+int render() {
   const float vertices[] = {
     // left triangle
     -0.5f, 0.5f, 0.0f,
