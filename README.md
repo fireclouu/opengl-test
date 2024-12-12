@@ -4,11 +4,29 @@ Learning Graphics Render Programming via OpenGL API, to utilize GPU hardware for
 ## Motivation
 For future development integration which requires custom or uniform UI across devices that understands OpenGL API.
 
-## How to run or test?
-Make sure your device supports graphical interface and OpenGL 3.3 installed. Install required libraries:
-`libglfw3 libglfw3-dev`
+## How to run
+Make sure your system has GUI or running desktop environment, and understands OpenGL 3.3 installed.
 
-and supported packages. This project also uses GLAD library which is already integrated.
+Install required libraries:
+```bash
+sudo apt-get install clang cmake make libglfw3 libglfw3-dev
+```
+
+This project also uses GLAD library which is already used. No need to reconfigure for `linux-based` systems.
+
+Clone this repository, and then execute:
+```bash
+cd opengl-test/
+chmod +x run.sh
+```
+
+After mode changing, execute build process by running:
+`./run.sh`
+
+This will start making binaries on `opengl-test/build/bin`.
+
+> [!NOTE]
+> First build may take more time. Subsequent builds after first one will be much more faster
 
 ## Milestones
 - [x] Introduction to Graphics Programming
