@@ -16,6 +16,7 @@ and supported packages. This project also uses GLAD library which is already int
 - [x] Basic Rendering Setup
 - [x] VAOs, VBOs, EBO
 - [ ] Shaders
+
 ## Resources
 - [https://learnopengl.com](https://learnopengl.com/)
 - [http://www.opengl-tutorial.org](http://www.opengl-tutorial.org/)
