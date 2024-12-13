@@ -12,7 +12,7 @@ Install required libraries:
 sudo apt-get install clang cmake make libglfw3 libglfw3-dev
 ```
 
-This project also uses GLAD library which is already used. No need to reconfigure for `linux-based` systems.
+This project also uses GLAD library which is already used. No need to reconfigure for *linux-based* systems.
 
 Clone this repository, and then execute:
 ```bash
