@@ -69,6 +69,8 @@ while true; do
 
   echo "Current Directory will set to $PARENT_DIR"
   cd $PARENT_DIR
+
+  sleep 1
 done
 
 echo -e "\e[033mGood bye.\e[0m"
