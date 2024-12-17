@@ -33,7 +33,7 @@ This will start making binaries on `opengl-test/build/bin`.
 - [x] OpenGL as Graphics API
 - [x] Basic Rendering Setup
 - [x] VAOs, VBOs, EBO
-- [ ] Shaders
+- [x] Shaders
 
 ## Resources
 - [https://learnopengl.com](https://learnopengl.com/)
