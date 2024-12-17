@@ -24,8 +24,8 @@ int render() {
     0.5f, -0.5f, 0.0f
   };
 
-  const char* vertexShaderFilePath = "shaders/exercise-02-02-shaders-uniform-vertex.glsl";
-  const char* fragmentShaderFilePath = "shaders/exercise-02-02-shaders-uniform-fragment.glsl";
+  const char* vertexShaderFilePath = "shaders/exercise-02-02-shader-vertex.glsl";
+  const char* fragmentShaderFilePath = "shaders/exercise-02-02-shader-fragment.glsl";
 
   GLuint VAO;
   GLuint VBO;

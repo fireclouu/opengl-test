@@ -32,9 +32,9 @@ int render() {
      1.0f, -0.5f,  0.0f,
   };
 
-  const char* vertexShaderFilePath = "shaders/vertex_shader.glsl";
-  const char* fragmentShaderFilePathOrange = "shaders/fragment_shader.glsl";
-  const char* fragmentShaderFilePathPurple = "shaders/fragment_shader_purple.glsl";
+  const char* vertexShaderFilePath = "shaders/exercise-01-01-shader-vertex.glsl";
+  const char* fragmentShaderFilePathOrange = "shaders/exercise-01-01-shader-fragment.glsl";
+  const char* fragmentShaderFilePathPurple = "shaders/exercise-01-04-shader-fragment-color-purple.glsl";
 
   GLuint VAOs[2];
   GLuint VBOs[2];
