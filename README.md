@@ -5,28 +5,37 @@ Learning Graphics Render Programming via OpenGL API, to utilize GPU hardware for
 For future development integration which requires custom or uniform UI across devices that understands OpenGL API.
 
 ## How to run
-Make sure your system has GUI or running desktop environment, and understands OpenGL 3.3 installed.
+Make sure your system has GUI or running desktop environment, and understands core OpenGL 3.3.
 
 Install required libraries:
 ```bash
 sudo apt-get install clang cmake make libglfw3 libglfw3-dev
 ```
 
-This project also uses GLAD library which is already used. No need to reconfigure for *linux-based* systems.
+This project also uses GLAD library which is already implemented. No need to reconfigure for *linux-based* systems.
 
-Clone this repository, and then execute:
+Clone this repository
+```bash
+git clone https://github.com/fireclouu/opengl-test.git
+```
+
+After cloning is complete, execute:
 ```bash
 cd opengl-test/
 chmod +x run.sh
 ```
 
 After mode changing, execute build process by running:
-`./run.sh`
+```bash
+./run.sh
+```
 
-This will start making binaries on `opengl-test/build/bin`.
+This build script automates nearly everything in project. CMake seeks all `exercise-*.cpp` source files available in `src/`, copy new/modified shader files into `build/bin/shaders` and makes binaries inside `build/bin`.
+
+For convenience, the script has UI that allows to execute binaries instantly, user can pick binaries to execute, listed in reversed order.
 
 > [!NOTE]
-> First build may take more time. Subsequent builds after first one will be much more faster
+> First build may take time due to caching. Subsequent builds after first one will execute much faster
 
 ## Milestones
 - [x] Introduction to Graphics Programming
