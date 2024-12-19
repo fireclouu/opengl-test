@@ -4,8 +4,16 @@ opt=1
 BUILD_DIR=build
 BIN_DIR=$BUILD_DIR/bin
 PARENT_DIR=$PWD
+TERMUX_X11_ACTIVITY="am start com.termux.x11/.MainActivity"
+TERMUX_X11_ACTIVITY_FLAG=0
 
 mkdir -p $BIN_DIR
+
+for arg in "$@"; do
+  if [ $arg == "--termux-x11-support" ]; then
+    TERMUX_X11_ACTIVITY_FLAG=1
+  fi
+done
 
 echo -e "\e[033mRun CMake...\e[0m"
 cmake -S . -B $BUILD_DIR > /dev/null
@@ -54,6 +62,10 @@ while true; do
 
   echo "Current Directory will set to $PARENT_DIR/$BIN_DIR"
   cd $PARENT_DIR/$BIN_DIR
+
+  if [ $TERMUX_X11_ACTIVITY_FLAG -eq 1 ]; then
+    eval "$TERMUX_X11_ACTIVITY"
+  fi
 
   echo -e "\e[033mTransferring to Program...\e[0m"
   eval "$PARENT_DIR/${exec_array[$selected]}"
