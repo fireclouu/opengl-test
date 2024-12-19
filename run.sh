@@ -5,6 +5,7 @@ BUILD_DIR=build
 BIN_DIR=$BUILD_DIR/bin
 PARENT_DIR=$PWD
 TERMUX_X11_ACTIVITY="am start com.termux.x11/.MainActivity"
+TERMUX_X11_ACTIVITY_KILL="am broadcast -a com.termux.x11.ACTION_STOP -p com.termux.x11"
 TERMUX_X11_ACTIVITY_FLAG=0
 
 mkdir -p $BIN_DIR
@@ -63,6 +64,7 @@ while true; do
   echo "Current Directory will set to $PARENT_DIR/$BIN_DIR"
   cd $PARENT_DIR/$BIN_DIR
 
+  # Termux
   if [ $TERMUX_X11_ACTIVITY_FLAG -eq 1 ]; then
     eval "$TERMUX_X11_ACTIVITY"
   fi
@@ -70,6 +72,12 @@ while true; do
   echo -e "\e[033mTransferring to Program...\e[0m"
   eval "$PARENT_DIR/${exec_array[$selected]}"
   STATUS=$?
+
+  # Termux
+  if [ $TERMUX_X11_ACTIVITY_FLAG -eq 1 ]; then
+    eval "$TERMUX_X11_ACTIVITY_KILL"
+  fi
+
   echo -e "\e[033mTransferring back to shell...\e[0m"
 
   if [ $STATUS -eq 0 ]; then
