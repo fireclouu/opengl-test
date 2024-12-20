@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
 #include "utils/file_utils.hpp"
 #include "utils/opengl_utils.hpp"
 
