@@ -16,7 +16,7 @@ This project also uses GLAD library which is already implemented. No need to rec
 
 Clone this repository
 ```bash
-git clone https://github.com/fireclouu/opengl-test.git
+git clone --recurse-submodules https://github.com/fireclouu/opengl-test.git
 ```
 
 After cloning is complete, execute:
