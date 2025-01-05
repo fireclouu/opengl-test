@@ -29,6 +29,10 @@ for arg in "$@"; do
   fi
 done
 
+if [ -n $TERMUX_VERSION ] && [ $TERMUX_X11_ACTIVITY_FLAG -eq 0 ]; then
+  echo -e "Hint: TERMUX detected. You may want to use \e[033m--termux-x11-support\e[0m for better automation support"
+fi
+
 echo -e "\e[033mRun CMake...\e[0m"
 cmake -S . -B $BUILD_DIR > /dev/null
 if [ $? -ne 0 ]; then exit 1; fi
